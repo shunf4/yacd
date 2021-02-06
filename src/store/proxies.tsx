@@ -313,11 +313,7 @@ export function requestDelayForProxies(
   names: string[]
 ) {
   return async (dispatch: DispatchFn, getState: GetStateFn) => {
-    const proxyNames = getDangleProxyNames(getState());
-
     const works = names
-      // remove names that are provided by proxy providers
-      .filter((p) => proxyNames.indexOf(p) > -1)
       .map((p) => dispatch(requestDelayForProxy(apiConfig, p)));
     await Promise.all(works);
     await dispatch(fetchProxies(apiConfig));
